@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MysteryShop.Domain.Repositories;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;

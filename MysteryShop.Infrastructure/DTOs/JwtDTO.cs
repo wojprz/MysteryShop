@@ -4,7 +4,7 @@ using System.Text;
 
 namespace MysteryShop.Infrastructure.DTOs
 {
-    class JwtDTO
+    public class JwtDTO
     {
         public Guid UserId { get; set; }
         public string Token { get; set; }
