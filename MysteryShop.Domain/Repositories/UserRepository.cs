@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace MysteryShop.Domain.Repositories
 {
-    public class UserRepository
+    public class UserRepository : IUserRepository
     {
         private readonly MysteryShopContext _entities;
 

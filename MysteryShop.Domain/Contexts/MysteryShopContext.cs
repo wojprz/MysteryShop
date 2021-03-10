@@ -32,7 +32,7 @@ namespace MysteryShop.Domain.Contexts
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseInMemoryDatabase("MagisterShop");
+            optionsBuilder.UseInMemoryDatabase("MysteryShop");
         }
 
         public object Clone()

@@ -8,9 +8,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using MysteryShop.Domain.Contexts;
 using MysteryShop.Domain.Repositories;
 using MysteryShop.Infrastructure.Mappers;
 using MysteryShop.Infrastructure.Services;
+using Microsoft.EntityFrameworkCore;
 using MysteryShop.Infrastructure.Settings;
 using System;
 using System.Collections.Generic;
@@ -72,6 +74,17 @@ namespace MysteryShop
                 Key = "Fjjji0Hdsa4$JgrwIO1j678dCelgFymdo"
             };
 
+            services.AddDbContext<MysteryShopContext>(
+                options => options.UseInMemoryDatabase("MysteryShop"));
+
+            services.AddDbContext<RefreshTokenContext>(
+                options => options.UseInMemoryDatabase("RefreshToken"));
+
+            //services.AddEntityFrameworkSqlServer()
+            //   .AddEntityFrameworkInMemoryDatabase()
+            //   .AddDbContext<MysteryShopContext>()
+            //   .AddDbContext<RefreshTokenContext>();
+
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(c =>
                 {
@@ -87,6 +100,7 @@ namespace MysteryShop
             services.AddSingleton<IHostEnviroment>(hostEnviroment);
             services.AddSingleton<IMapper>(AutoMapperConfig.Mapper());
             services.AddSingleton<IJwtHandler, JwtHandler>(sp => new JwtHandler(jwtSettings));
+            services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<ICommentRepository, CommentRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IRatingRepository, RatingRepository>();
