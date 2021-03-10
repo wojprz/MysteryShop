@@ -9,16 +9,9 @@ using System.Text;
 
 namespace MysteryShop.Infrastructure.Mappers
 {
-    public class AutoMapperConfig : IAutoMapperConfig
+    public static class AutoMapperConfig
     {
-        private readonly IOptions<HostOptions> _settings;
-
-        public AutoMapperConfig(IOptions<HostOptions> settings)
-        {
-            _settings = settings;
-        }
-
-        public IMapper Mapper
+        public static IMapper Mapper()
             => new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<Product, ProductDTO>();

@@ -16,11 +16,11 @@ namespace MysteryShop.Infrastructure.Services
         private readonly IRatingRepository _ratingRepository;
         private readonly IMapper _mapper;
 
-        public RatingService(IProductRepository productRepository, IRatingRepository ratingRepository, IAutoMapperConfig config)
+        public RatingService(IProductRepository productRepository, IRatingRepository ratingRepository, IMapper mapper)
         {
             _productRepository = productRepository;
             _ratingRepository = ratingRepository;
-            _mapper = config.Mapper;
+            _mapper = mapper;
         }
 
         public async Task AddVoteAsync(Product product, User user, int rating)

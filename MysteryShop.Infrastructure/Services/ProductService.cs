@@ -10,19 +10,19 @@ using System.Threading.Tasks;
 
 namespace MysteryShop.Infrastructure.Services
 {
-    public class ProductService
+    public class ProductService : IProductService
     {
         private readonly IProductRepository _productRepository;
         private readonly IRatingRepository _ratingRepository;
         private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
 
-        public ProductService(IProductRepository productRepository, IRatingRepository ratingRepository, IUserRepository userRepository, IAutoMapperConfig config)
+        public ProductService(IProductRepository productRepository, IRatingRepository ratingRepository, IUserRepository userRepository, IMapper mapper)
         {
             _productRepository = productRepository;
             _ratingRepository = ratingRepository;
             _userRepository = userRepository;
-            _mapper = config.Mapper;
+            _mapper = mapper;
         }
 
         public async Task CreateAsync(string title, string description, User userN)
@@ -68,9 +68,9 @@ namespace MysteryShop.Infrastructure.Services
             return _mapper.Map<IEnumerable<Product>, IEnumerable<ProductDTO>>(product);
         }
 
-        public async Task<IEnumerable<ProductDTO>> GetAllUserProductsAsync(string userName)
+        public async Task<IEnumerable<ProductDTO>> GetAllUserProductsAsync(User userN)
         {
-            var product = await _productRepository.GetAllUserProductsAsync(userName);
+            var product = await _productRepository.GetAllUserProductsAsync(userN);
             return _mapper.Map<IEnumerable<Product>, IEnumerable<ProductDTO>>(product);
         }
 

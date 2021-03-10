@@ -18,13 +18,13 @@ namespace MysteryShop.Infrastructure.Services
         private readonly ICommentRepository _commentRepository;
         private readonly IMapper _mapper;
 
-        public CommentService(IProductRepository productRepository, IRatingRepository ratingRepository, IUserRepository userRepository, ICommentRepository commentRepository, IAutoMapperConfig config)
+        public CommentService(IProductRepository productRepository, IRatingRepository ratingRepository, IUserRepository userRepository, ICommentRepository commentRepository, IMapper mapper)
         {
             _productRepository = productRepository;
             _userRepoistory = userRepository;
             _ratingRepository = ratingRepository;
             _commentRepository = commentRepository;
-            _mapper = config.Mapper;
+            _mapper = mapper;
         }
 
         public async Task<IEnumerable<CommentDTO>> GetAllUserComments(Guid userId, int page, int count)

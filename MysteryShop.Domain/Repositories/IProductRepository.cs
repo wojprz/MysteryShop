@@ -12,7 +12,7 @@ namespace MysteryShop.Domain.Repositories
         Task<IEnumerable<Product>> GetAllAsync();
         Task<IEnumerable<Product>> GetAllAsync(int page, int count);
         Task<IEnumerable<Product>> GetAllWithNameAsync(string title);
-        Task<IEnumerable<Product>> GetAllUserProductsAsync(string userName);
+        Task<IEnumerable<Product>> GetAllUserProductsAsync(User user);
         Task RemoveAsync(Guid id);
         Task AddAsync(Product product);
         Task UpdateAsync(Product product);

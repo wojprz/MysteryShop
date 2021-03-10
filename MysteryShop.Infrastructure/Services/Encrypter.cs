@@ -1,11 +1,12 @@
-﻿using System;
+﻿using MysteryShop.Domain.Repositories;
+using System;
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Text;
 
 namespace MysteryShop.Infrastructure.Services
 {
-    public class Encrypter
+    public class Encrypter : IEncrypter
     {
         private static readonly int DeriveBytesIterationsCount = 10000;
         private static readonly int SaltSize = 40;

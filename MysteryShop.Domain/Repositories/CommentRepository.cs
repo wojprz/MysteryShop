@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace MysteryShop.Domain.Repositories
 {
-    public class CommentRepository
+    public class CommentRepository : ICommentRepository
     {
         private readonly MysteryShopContext _entities;
 

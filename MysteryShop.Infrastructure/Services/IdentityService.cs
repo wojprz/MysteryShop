@@ -55,7 +55,7 @@ namespace MysteryShop.Infrastructure.Services
             {
                 throw new Exception();
             }
-            var jwt = _jwtHandler.Create(user.Id);
+            var jwt = _jwtHandler.CreateToken(user.Id);
             var refreshToken = await _refreshTokens.GetByUserIdAsync(user.Id);
             string token = "";
             if (refreshToken == null)
@@ -89,7 +89,7 @@ namespace MysteryShop.Infrastructure.Services
             {
                 throw new Exception("User was not found.");
             }
-            var jwt = _jwtHandler.Create(user.Id);
+            var jwt = _jwtHandler.CreateToken(user.Id);
             var jwtDto = new JwtDTO() { AccessToken = jwt.AccessToken, Expires = jwt.Expires, RefreshToken = token.Token };
 
             return jwtDto;

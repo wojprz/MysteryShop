@@ -7,6 +7,6 @@ namespace MysteryShop.Infrastructure.Services
 {
     public interface IJwtHandler
     {
-        JwtDTO Create(Guid userId);
+        JwtDTO CreateToken(Guid userId);
     }
 }

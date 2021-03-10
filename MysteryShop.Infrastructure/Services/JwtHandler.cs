@@ -19,19 +19,19 @@ namespace MysteryShop.Infrastructure.Services
             _settings = settings;
         }
 
-        public JwtDTO Create(Guid userId)
+        public JwtDTO CreateToken(Guid userId)
         {
             var now = DateTime.UtcNow;
             var claims = new Claim[]
             {
-                new Claim(System.IdentityModel.Tokens.Jwt.JwtRegisteredClaimNames.Sub, userId.ToString()),
-                new Claim(System.IdentityModel.Tokens.Jwt.JwtRegisteredClaimNames.UniqueName, userId.ToString()),
-                new Claim(System.IdentityModel.Tokens.Jwt.JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new Claim(System.IdentityModel.Tokens.Jwt.JwtRegisteredClaimNames.Iat, now.ToTimestamp().ToString(), ClaimValueTypes.Integer64)
+                new Claim(JwtRegisteredClaimNames.Sub, userId.ToString()),
+                new Claim(JwtRegisteredClaimNames.UniqueName, userId.ToString()),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new Claim(JwtRegisteredClaimNames.Iat, now.ToTimestamp().ToString(), ClaimValueTypes.Integer64)
             };
 
             var expires = now.AddMinutes(_settings.ExpiryMinutes);
-            var signingCredentials = new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_settings.SecretKey)),
+            var signingCredentials = new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_settings.Key)),
                 SecurityAlgorithms.HmacSha256);
             var jwt = new JwtSecurityToken(
                 issuer: _settings.Issuer,
@@ -48,6 +48,7 @@ namespace MysteryShop.Infrastructure.Services
                 Token = token,
                 Expires = expires.ToTimestamp()
             };
+
         }
     }
 }
