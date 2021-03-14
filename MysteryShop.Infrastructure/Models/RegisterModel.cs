@@ -4,7 +4,7 @@ using System.Text;
 
 namespace MysteryShop.Infrastructure.Models
 {
-    class RegisterModel
+    public class RegisterModel
     {
         public string Login { get; set; }
         public string Name { get; set; }

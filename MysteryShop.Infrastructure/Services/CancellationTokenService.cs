@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace MysteryShop.Infrastructure.Services
 {
-    class CancellationTokenService
+    public class CancellationTokenService : ICancellationTokenService
     {
         private readonly IDistributedCache _cache;
         private readonly IHttpContextAccessor _httpContextAccessor;

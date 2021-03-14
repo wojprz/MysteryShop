@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace MysteryShop.Domain.Repositories
 {
-    public class RefreshRepository
+    public class RefreshRepository : IRefreshTokenRepository
     {
         private readonly RefreshTokenContext _context;
         public RefreshRepository(RefreshTokenContext context)

@@ -19,6 +19,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Caching.Distributed;
+using MysteryShop.Framework;
 
 namespace MysteryShop
 {
@@ -103,10 +105,16 @@ namespace MysteryShop
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<ICommentRepository, CommentRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<IDistributedCache, MemoryDistributedCache>();
             services.AddScoped<IRatingRepository, RatingRepository>();
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<ICommentService, CommentService>();
+            services.AddTransient<CancellationTokenMiddleware>();
+            services.AddTransient<ICancellationTokenService, CancellationTokenService>();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddScoped<IIdentityService, IdentityService>();
             services.AddScoped<IRatingService, RatingService>();
+            services.AddScoped<IRefreshTokenRepository, RefreshRepository>();
             services.AddSingleton<IEncrypter, Encrypter>();
         }
 

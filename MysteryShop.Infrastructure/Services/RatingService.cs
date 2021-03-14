@@ -12,13 +12,11 @@ namespace MysteryShop.Infrastructure.Services
 {
     public class RatingService : IRatingService
     {
-        private readonly IProductRepository _productRepository;
         private readonly IRatingRepository _ratingRepository;
         private readonly IMapper _mapper;
 
         public RatingService(IProductRepository productRepository, IRatingRepository ratingRepository, IMapper mapper)
         {
-            _productRepository = productRepository;
             _ratingRepository = ratingRepository;
             _mapper = mapper;
         }

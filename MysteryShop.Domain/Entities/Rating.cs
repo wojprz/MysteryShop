@@ -13,19 +13,17 @@ namespace MysteryShop.Domain.Entities
         public int SumOfVotes { get; protected set; }
         public double AvarageOfVotes { get; protected set; }
 
-        public ICollection<Guid?> Users { get; protected set; }
+        public ICollection<Guid> Users { get; protected set; } = new HashSet<Guid>();
 
         public Rating()
         {
             Id = Guid.NewGuid();
-            Users = new HashSet<Guid?>();
         }
 
         public Rating(Guid productId)
         {
             Id = Guid.NewGuid();
             ProductId = productId;
-            Users = new HashSet<Guid?>();
         }
 
         public void AddVote(Guid userID, int ocena)
