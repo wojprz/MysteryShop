@@ -21,10 +21,7 @@ namespace MysteryShop.Domain.Contexts
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseInMemoryDatabase(_settings.ConnectionString,
-                options =>
-                {
-                });
+            optionsBuilder.UseInMemoryDatabase("RefreshTokens");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

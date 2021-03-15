@@ -37,7 +37,7 @@ namespace MysteryShop.Infrastructure.Services
             var salt = _encrypter.GetSalt(password);
             var hash = _encrypter.GetHash(password, salt);
 
-            User user = new User(email, name, surname, login, password, _encrypter);
+            User user = new User(email, name, surname, login, password, _encrypter, 1);
 
 
             await _userRepository.AddAsync(user);

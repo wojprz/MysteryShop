@@ -13,7 +13,7 @@ namespace MysteryShop.Domain.Entities
         public int SumOfVotes { get; protected set; }
         public double AvarageOfVotes { get; protected set; }
 
-        public ICollection<Guid> Users { get; protected set; } = new HashSet<Guid>();
+        public ICollection<User> Users { get; protected set; } = new HashSet<User>();
 
         public Rating()
         {
@@ -29,13 +29,13 @@ namespace MysteryShop.Domain.Entities
         public void AddVote(Guid userID, int ocena)
         {
             if (ocena > 5 || ocena < 1) throw new Exception();
-            var user = Users.FirstOrDefault(u => u == userID);
-            if (user != null)
+            //var user = Users.FirstOrDefault(u => u == userID);
+           // if (user != null)
                 throw new Exception();
             SumOfVotes = SumOfVotes + ocena;
             NumberOfVotes++;
             AvarageOfVotes = Math.Round((double)SumOfVotes / (double)NumberOfVotes, 2);
-            Users.Add(userID);
+           // Users.Add(userID);
         }
     }
 }

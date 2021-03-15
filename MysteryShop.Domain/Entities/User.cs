@@ -83,8 +83,8 @@ namespace MysteryShop.Domain.Entities
 
         public void SetStatus(int status)
         {
-            if (status != 1 | status != 0) throw new Exception();
-            Status = status;
+            if (status == 1 | status == 0) Status = status;
+            else throw new Exception();
         }
     }
 }
