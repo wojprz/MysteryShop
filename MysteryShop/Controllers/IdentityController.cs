@@ -19,11 +19,13 @@ namespace MysteryShop.Controllers
     public class IdentityController : ControllerBase
     {
         private readonly IIdentityService _identityService;
+        private readonly IJwtHandler _jwtHandler;
         private readonly ICancellationTokenService _cancellationService;
 
-        public IdentityController(IIdentityService identityService, ICancellationTokenService cancellationTokenService)
+        public IdentityController(IIdentityService identityService, ICancellationTokenService cancellationTokenService, IJwtHandler jwtHandler)
         {
             _identityService = identityService;
+            _jwtHandler = jwtHandler;
             _cancellationService = cancellationTokenService;
         }
 
@@ -32,7 +34,8 @@ namespace MysteryShop.Controllers
         public async Task<IActionResult> Login([FromBody] LoginModel login)
         {
             var user = await _identityService.Login(login.Login, login.Password);
-            return Ok(user);
+            var token = _jwtHandler.CreateToken(user.UserId);
+            return Ok(token);
         }
 
         [AllowAnonymous]
@@ -56,9 +59,10 @@ namespace MysteryShop.Controllers
 
         [AllowAnonymous]
         [HttpPost("register")]
-        public async Task Register([FromBody] RegisterModel register)
+        public async Task<IActionResult> Register([FromBody] RegisterModel register)
         {
             await _identityService.Register(register.Login, register.Email, register.Name, register.Surname, register.Password);
+            return Ok();
         }
     }
 }

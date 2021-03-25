@@ -45,7 +45,7 @@ namespace MysteryShop.Infrastructure.Services
             return new JwtDTO
             {
                 UserId = userId,
-                Token = token,
+                AccessToken = token,
                 Expires = expires.ToTimestamp()
             };
 

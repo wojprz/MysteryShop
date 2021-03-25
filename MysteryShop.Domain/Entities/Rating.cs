@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MysteryShop.Domain.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -26,16 +27,16 @@ namespace MysteryShop.Domain.Entities
             ProductId = productId;
         }
 
-        public void AddVote(Guid userID, int ocena)
+        public void AddVote(User user, int ocena)
         {
-            if (ocena > 5 || ocena < 1) throw new Exception();
-            //var user = Users.FirstOrDefault(u => u == userID);
-           // if (user != null)
-                throw new Exception();
+            if (ocena > 5 || ocena < 1) throw new NewException(NewCodes.WrongRating);
+            var userN = Users.FirstOrDefault(u => u == user);
+            if (userN != null)
+                throw new NewException(NewCodes.UserVoted);
             SumOfVotes = SumOfVotes + ocena;
             NumberOfVotes++;
             AvarageOfVotes = Math.Round((double)SumOfVotes / (double)NumberOfVotes, 2);
-           // Users.Add(userID);
+            Users.Add(user);
         }
     }
 }

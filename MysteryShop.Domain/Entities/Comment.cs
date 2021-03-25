@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MysteryShop.Domain.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -28,8 +29,8 @@ namespace MysteryShop.Domain.Entities
 
         public void SetContent(string content)
         {
-            if (content.Length < 20) throw new Exception();
-            if (content.Length > 200) throw new Exception();
+            if (content.Length < 20) throw new NewException(NewCodes.ShortComment);
+            if (content.Length > 200) throw new NewException(NewCodes.LongComment);
             Content = content;
         }
     }

@@ -1,4 +1,5 @@
-﻿using MysteryShop.Domain.Repositories;
+﻿using MysteryShop.Domain.Exceptions;
+using MysteryShop.Domain.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -37,41 +38,41 @@ namespace MysteryShop.Domain.Entities
 
         public void SetEmail(string email)
         {
-            if (!regex_mail.IsMatch(email)) throw new Exception();
-            if (email == Email) throw new Exception();
+            if (!regex_mail.IsMatch(email)) throw new NewException(NewCodes.WrongEmail);
+            if (email == Email) throw new NewException(NewCodes.NotUniqueEmail);
             Email = email;
         }
 
         public void SetName(string name)
         {
-            if (string.IsNullOrWhiteSpace(name)) throw new Exception();
-            if (name.Length > 30) throw new Exception();
-            if (name.Length < 3) throw new Exception();
+            if (string.IsNullOrWhiteSpace(name)) throw new NewException(NewCodes.WrongName);
+            if (name.Length > 30) throw new NewException(NewCodes.LongName);
+            if (name.Length < 3) throw new NewException(NewCodes.ShortName);
             Name = name;
         }
 
         public void SetSurname(string surname)
         {
-            if (string.IsNullOrWhiteSpace(surname)) throw new Exception();
-            if (surname.Length > 30) throw new Exception();
-            if (surname.Length < 3) throw new Exception();
+            if (string.IsNullOrWhiteSpace(surname)) throw new NewException(NewCodes.WrongSurname);
+            if (surname.Length > 30) throw new NewException(NewCodes.LongSurname);
+            if (surname.Length < 3) throw new Exception(NewCodes.ShortSurname);
             Surname = surname;
         }
 
         public void SetLogin(string login)
         {
-            if (login.Length < 3) throw new Exception();
-            if (login.Length > 20) throw new Exception();
-            if (String.IsNullOrEmpty(login)) throw new Exception();
-            if (!regex_login.IsMatch(login)) throw new Exception();
+            if (login.Length < 4) throw new NewException(NewCodes.ShortLogin);
+            if (login.Length > 15) throw new NewException(NewCodes.LongLogin);
+            if (String.IsNullOrEmpty(login)) throw new NewException();
+            if (!regex_login.IsMatch(login)) throw new NewException();
             Login = login;
         }
 
         public void SetPassword(string password, IEncrypter encrypter)
         {
-            if (string.IsNullOrWhiteSpace(password)) throw new Exception();
-            if (password.Length < 6) throw new Exception();
-            if (password.Length >= 20) throw new Exception();
+            if (string.IsNullOrWhiteSpace(password)) throw new NewException(NewCodes.NullPassword);
+            if (password.Length < 8) throw new NewException(NewCodes.ShortPassword);
+            if (password.Length >= 32) throw new NewException(NewCodes.LongPassword);
             if (password == Password) throw new Exception();
 
             string salt = encrypter.GetSalt(password);
@@ -84,7 +85,7 @@ namespace MysteryShop.Domain.Entities
         public void SetStatus(int status)
         {
             if (status == 1 | status == 0) Status = status;
-            else throw new Exception();
+            else throw new NewException(NewCodes.WrongStatus);
         }
     }
 }

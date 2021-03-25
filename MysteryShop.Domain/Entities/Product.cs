@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MysteryShop.Domain.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -37,21 +38,24 @@ namespace MysteryShop.Domain.Entities
 
         public void SetTitle(string title)
         {
-            if (title.Length > 30) throw new Exception();
-            if (title.Length < 3) throw new Exception();
+            if (title.Length > 50) throw new NewException(NewCodes.LongTitle);
+            if (title.Length < 3) throw new NewException(NewCodes.ShortTitle);
             Title = title;
         }
 
         public void SetDescription(string description)
         {
-            if (description.Length > 500) throw new Exception();
-            if (description.Length < 5) throw new Exception();
+            if (description.Length > 2500) throw new NewException(NewCodes.LongDescryption);
+            if (description.Length < 5) throw new NewException(NewCodes.ShortDescryption);
+            Description = description;
         }
 
         public void SetStatus(int status)
         {
-            if (status != 1 | status != 0) throw new Exception();
-            Status = status;
+            if (status == 1 | status == 0) 
+                Status = status;
+            else
+                throw new NewException(NewCodes.WrongStatus);
         }
     }
 }

@@ -39,7 +39,6 @@ namespace MysteryShop.Infrastructure.Services
 
             User user = new User(email, name, surname, login, password, _encrypter, 1);
 
-
             await _userRepository.AddAsync(user);
         }
 
@@ -68,7 +67,7 @@ namespace MysteryShop.Infrastructure.Services
             }
             else
                 token = refreshToken.Token;
-            var jwtDto = new JwtDTO() { AccessToken = jwt.AccessToken, Expires = jwt.Expires, RefreshToken = token };
+            var jwtDto = new JwtDTO() { AccessToken = jwt.AccessToken, Expires = jwt.Expires, RefreshToken = token, UserId = jwt.UserId};
 
             return jwtDto;
         }

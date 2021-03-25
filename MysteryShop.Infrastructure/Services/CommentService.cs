@@ -60,8 +60,11 @@ namespace MysteryShop.Infrastructure.Services
             return _mapper.Map<Comment, CommentDTO>(comment);
         }
 
-        public async Task AddCommentAsync(Comment comment)
+        public async Task AddCommentAsync(Guid userID, string content, Guid productID)
         {
+            var user = await _userRepoistory.GetAsync(userID);
+            var product = await _productRepository.GetAsync(productID);
+            var comment = new Comment(content, user, product);
             await _commentRepository.AddAsync(comment);
         }
     }

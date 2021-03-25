@@ -15,6 +15,6 @@ namespace MysteryShop.Infrastructure.Services
         Task<IEnumerable<CommentDTO>> GetAllProdctComments(Guid productId, int page, int count);
         Task RemoveAsync(Guid commentId);
         Task<CommentDTO> GetAsync(Guid commentId);
-        Task AddCommentAsync(Comment comment);
+        Task AddCommentAsync(Guid userID, string content, Guid productID);
     }
 }

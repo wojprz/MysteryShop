@@ -11,7 +11,7 @@ namespace MysteryShop.Infrastructure.DTOs
         public string Description { get; set; }
         public float Price { get; set; }
         public DateTime DateOfAddition { get; set; }
-        public User User { get; set; }
+        public Guid UserID { get; set; }
         public RatingDTO Rating { get; set; }
     }
 }

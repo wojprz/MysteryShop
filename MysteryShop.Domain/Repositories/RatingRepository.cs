@@ -34,7 +34,7 @@ namespace MysteryShop.Domain.Repositories
 
         public async Task AddVoteAsync(Product product, User user, int rating)
         {
-            _entities.Ratings.FirstOrDefault(x => x.ProductId == product.Id).AddVote(user.Id, rating);
+            _entities.Ratings.FirstOrDefault(x => x.ProductId == product.Id).AddVote(user, rating);
             await _entities.SaveChangesAsync();
         }
 

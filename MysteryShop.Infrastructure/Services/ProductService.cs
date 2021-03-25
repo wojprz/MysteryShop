@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MysteryShop.Domain.Entities;
+using MysteryShop.Domain.Exceptions;
 using MysteryShop.Domain.Repositories;
 using MysteryShop.Infrastructure.DTOs;
 using MysteryShop.Infrastructure.Mappers;
@@ -25,23 +26,23 @@ namespace MysteryShop.Infrastructure.Services
             _mapper = mapper;
         }
 
-        public async Task CreateAsync(string title, string description, User userN)
+        public async Task CreateAsync(string title, string description, Guid userID)
         {
             if (title == null)
             {
-                throw new Exception();
+                throw new NewException(NewCodes.EmptyTitle);
             }
             if (description == null)
             {
-                throw new Exception();
+                throw new NewException(NewCodes.EmptyDescryption);
             }
 
             var rating = _ratingRepository.CreateRating();
-            var user = await _userRepository.GetAsync(userN.Id);
+            var user = await _userRepository.GetAsync(userID);
 
             if (user == null)
             {
-                throw new Exception();
+                throw new NewException(NewCodes.UserNotFound);
             }
 
 
@@ -53,29 +54,43 @@ namespace MysteryShop.Infrastructure.Services
         public async Task<ProductDTO> GetAsync(Guid id)
         {
             var product = await _productRepository.GetAsync(id);
+            if (product == null)
+                throw new NewException(NewCodes.ProductNotFound);
             return _mapper.Map<Product, ProductDTO>(product);
         }
 
         public async Task<IEnumerable<ProductDTO>> GetAllAsync(int page, int count = 10)
         {
             var product = await _productRepository.GetAllAsync(page, count);
+            if (product == null)
+                throw new NewException(NewCodes.ProductNotFound);
             return _mapper.Map<IEnumerable<Product>, IEnumerable<ProductDTO>>(product);
         }
 
         public async Task<IEnumerable<ProductDTO>> GetAllWithNameAsync(string title)
         {
             var product = await _productRepository.GetAllWithNameAsync(title);
+            if (product == null)
+                throw new NewException(NewCodes.ProductNotFound);
             return _mapper.Map<IEnumerable<Product>, IEnumerable<ProductDTO>>(product);
         }
 
-        public async Task<IEnumerable<ProductDTO>> GetAllUserProductsAsync(User userN)
+        public async Task<IEnumerable<ProductDTO>> GetAllUserProductsAsync(Guid userID)
         {
-            var product = await _productRepository.GetAllUserProductsAsync(userN);
+            var user = await _userRepository.GetAsync(userID);
+            if (user == null)
+                throw new NewException(NewCodes.UserNotFound);
+            var product = await _productRepository.GetAllUserProductsAsync(user);
+            if (product == null)
+                throw new NewException(NewCodes.ProductNotFound);
             return _mapper.Map<IEnumerable<Product>, IEnumerable<ProductDTO>>(product);
         }
 
         public async Task RemoveAsync(Guid id)
         {
+            var product = await _productRepository.GetAsync(id);
+            if (product == null)
+                throw new NewException(NewCodes.ProductNotFound);
             await _productRepository.RemoveAsync(id);
         }
     }
