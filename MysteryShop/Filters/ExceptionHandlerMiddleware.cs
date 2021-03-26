@@ -38,7 +38,6 @@ namespace MysteryShop.Filters
 
         public static Task HandleExceptionAsync(HttpContext context, Exception exception, IMemoryCache cache, IConfiguration configuration)
         {
-            var errorCode = "error";
             var statusCode = HttpStatusCode.BadRequest;
             var exceptionType = exception.GetType();
             var exceptionMessage = exception.Message;
@@ -64,7 +63,7 @@ namespace MysteryShop.Filters
                     break;
             }
 
-            var response = new { code = errorCode, message = exceptionMessage };
+            var response = new { message = exceptionMessage };
             var payload = JsonConvert.SerializeObject(response);
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = (int)statusCode;
