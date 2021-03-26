@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using MysteryShop.Domain.Exceptions;
 using Newtonsoft.Json;
@@ -14,13 +13,11 @@ namespace MysteryShop.Filters
     public class ExceptionHandlerMiddleware
     {
         public readonly RequestDelegate _next;
-        private readonly IMemoryCache _cache;
         private readonly IConfiguration _configuration;
 
-        public ExceptionHandlerMiddleware(RequestDelegate next, IMemoryCache cache, IConfiguration configuration)
+        public ExceptionHandlerMiddleware(RequestDelegate next, IConfiguration configuration)
         {
             _next = next;
-            _cache = cache;
             _configuration = configuration;
         }
 
@@ -32,11 +29,11 @@ namespace MysteryShop.Filters
             }
             catch (Exception ex)
             {
-                await HandleExceptionAsync(context, ex, _cache, _configuration);
+                await HandleExceptionAsync(context, ex, _configuration);
             }
         }
 
-        public static Task HandleExceptionAsync(HttpContext context, Exception exception, IMemoryCache cache, IConfiguration configuration)
+        public static Task HandleExceptionAsync(HttpContext context, Exception exception, IConfiguration configuration)
         {
             var statusCode = HttpStatusCode.BadRequest;
             var exceptionType = exception.GetType();
@@ -52,11 +49,6 @@ namespace MysteryShop.Filters
                 case NewException e when exceptionType == typeof(NewException):
                     statusCode = HttpStatusCode.BadRequest;
                     var key = e.Message + "-" + language;
-                    if (!cache.TryGetValue(key, out exceptionMessage))
-                    {
-                        exceptionMessage = cache.Get<string>(key);
-                    }
-                    
                     break;
                 case Exception e when exceptionType == typeof(Exception):
                     statusCode = HttpStatusCode.InternalServerError;

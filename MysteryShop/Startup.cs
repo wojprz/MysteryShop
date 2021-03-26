@@ -139,6 +139,7 @@ namespace MysteryShop
 
             }
 
+
             app.UseRouting();
 
             app.UseAuthentication();
