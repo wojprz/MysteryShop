@@ -28,7 +28,7 @@ namespace MysteryShop.Domain.Repositories
 
         public async Task<IEnumerable<Product>> GetAllAsync() => await _entities.Products.ToListAsync();
 
-        public async Task<IEnumerable<Product>> GetAllAsync(int page, int count) => await _entities.Products.Skip((page - 1) * count).Take(count).OrderBy(x => x.DateOfAddition).ToListAsync();
+        public async Task<IEnumerable<Product>> GetAllAsync(int page, int count) => await _entities.Products.Include(x => x.User).Skip((page - 1) * count).Take(count).OrderBy(x => x.DateOfAddition).ToListAsync();
 
         public async Task<IEnumerable<Product>> GetAllWithNameAsync(string title) => await _entities.Products.Where(x => x.Title.Contains(title)).ToListAsync();
 

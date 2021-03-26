@@ -56,7 +56,7 @@ namespace MysteryShop.Controllers
         {
             return await _productService.GetAllUserProductsAsync(userID);
         }
-
+        
         [HttpDelete("Remove")]
         public async Task<IActionResult> RemoveProduct(Guid id)
         {

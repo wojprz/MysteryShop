@@ -1,4 +1,5 @@
 ﻿using MysteryShop.Domain.Entities;
+using MysteryShop.Domain.Exceptions;
 using MysteryShop.Domain.Repositories;
 using MysteryShop.Infrastructure.DTOs;
 using System;
@@ -30,9 +31,9 @@ namespace MysteryShop.Infrastructure.Services
         {
             var unemail = await _userRepository.IsEmailUnique(email);
             var unelogin = await _userRepository.IsLoginUnique(login);
-            if (!unemail) throw new Exception();
+            if (!unemail) throw new NewException(NewCodes.NotUniqueEmail);
 
-            if (!unelogin) throw new Exception();
+            if (!unelogin) throw new NewException(NewCodes.NotUniqueLogin);
 
             var salt = _encrypter.GetSalt(password);
             var hash = _encrypter.GetHash(password, salt);
@@ -47,12 +48,12 @@ namespace MysteryShop.Infrastructure.Services
             var user = await _userRepository.GetAsync(login);
             if (user == null)
             {
-                throw new Exception();
+                throw new NewException(NewCodes.UserNotFound);
             }
             var hash = _encrypter.GetHash(password, user.Salt);
             if (user.Password != hash)
             {
-                throw new Exception();
+                throw new NewException(NewCodes.WrongCredentials);
             }
             var jwt = _jwtHandler.CreateToken(user.Id);
             var refreshToken = await _refreshTokens.GetByUserIdAsync(user.Id);
@@ -77,16 +78,16 @@ namespace MysteryShop.Infrastructure.Services
             var token = await _refreshTokens.GetAsync(refreshToken);
             if (token == null)
             {
-                throw new Exception("Token was not found.");
+                throw new NewException("Token was not found.");
             }
             if (token.Revoked)
             {
-                throw new Exception("Token was revoked.");
+                throw new NewException("Token was revoked.");
             }
             var user = await _userRepository.GetAsync(token.UserId);
             if (user == null)
             {
-                throw new Exception("User was not found.");
+                throw new NewException("User was not found.");
             }
             var jwt = _jwtHandler.CreateToken(user.Id);
             var jwtDto = new JwtDTO() { AccessToken = jwt.AccessToken, Expires = jwt.Expires, RefreshToken = token.Token };

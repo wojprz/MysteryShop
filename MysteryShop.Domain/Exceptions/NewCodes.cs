@@ -49,5 +49,6 @@ namespace MysteryShop.Domain.Exceptions
         public static string EmptyDescryption => "Descryption is empty!";
         public static string EmptyTitle => "Title is empty!";
         public static string ProductNotFound => "Product not found!";
+        public static string NotUniqueLogin => "Login is not unique!";
     }
 }

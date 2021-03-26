@@ -21,6 +21,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Caching.Distributed;
 using MysteryShop.Framework;
+using MysteryShop.Filters;
 
 namespace MysteryShop
 {
@@ -98,7 +99,7 @@ namespace MysteryShop
                         ValidateLifetime = true
                     };
                 });
-
+           
             services.AddSingleton<IHostEnviroment>(hostEnviroment);
             services.AddSingleton<IMapper>(AutoMapperConfig.Mapper());
             services.AddSingleton<IJwtHandler, JwtHandler>(sp => new JwtHandler(jwtSettings));
@@ -121,6 +122,7 @@ namespace MysteryShop
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            
             app.UseCors(builder =>
             {
                 builder.AllowAnyHeader();
@@ -130,6 +132,7 @@ namespace MysteryShop
 
             if (env.IsDevelopment())
             {
+                
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Serwer.Api v1"));
@@ -146,6 +149,8 @@ namespace MysteryShop
             {
                 endpoints.MapControllers();
             });
+
+            app.UseMiddleware<ExceptionHandlerMiddleware>();
         }
     }
 }
