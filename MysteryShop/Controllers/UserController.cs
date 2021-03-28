@@ -20,10 +20,11 @@ namespace MysteryShop.Controllers
         {
             _userService = userService;
         }
+        [AllowAnonymous]
         [HttpGet("GetUser")]
         public async Task<IActionResult> GetUser(Guid id)
         {
-            var user = await _userService.GetUser(id);
+            var user = await _userService.GetUserAsync(id);
             return Ok(user);
         }
 
@@ -37,7 +38,7 @@ namespace MysteryShop.Controllers
         [HttpPut("ChangeEmail")]
         public async Task<IActionResult> ChangeEmail(Guid id, string newEmail)
         {
-            var user = await _userService.GetUser(id);
+            var user = await _userService.GetUserAsync(id);
             await _userService.ChangeEmail(user.Login, newEmail);
             return Ok();
         }
@@ -45,7 +46,7 @@ namespace MysteryShop.Controllers
         [HttpPut("ChangePassword")]
         public async Task<IActionResult> ChangePassword(Guid id, string oldPassword, string newPassword)
         {
-            var user = await _userService.GetUser(id);
+            var user = await _userService.GetUserAsync(id);
             await _userService.ChangePassword(user.Login, newPassword, oldPassword);
             return Ok();
         }

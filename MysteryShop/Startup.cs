@@ -104,6 +104,7 @@ namespace MysteryShop
             services.AddSingleton<IMapper>(AutoMapperConfig.Mapper());
             services.AddSingleton<IJwtHandler, JwtHandler>(sp => new JwtHandler(jwtSettings));
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IUserService, UserService>();
             services.AddScoped<ICommentRepository, CommentRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IDistributedCache, MemoryDistributedCache>();
@@ -145,13 +146,13 @@ namespace MysteryShop
             app.UseAuthentication();
             app.UseAuthorization();
 
-
+            app.UseMiddleware<ExceptionHandlerMiddleware>();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
 
-            app.UseMiddleware<ExceptionHandlerMiddleware>();
+           
         }
     }
 }

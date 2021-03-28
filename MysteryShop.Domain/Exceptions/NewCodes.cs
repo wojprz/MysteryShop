@@ -8,7 +8,7 @@ namespace MysteryShop.Domain.Exceptions
 {
     public static class NewCodes
     {
-        public static string ShortComment => "Comment is too short! (min 20 characters)";
+        public static string ShortComment => "Comment is too short! (min 2 characters)";
         public static string LongComment => "Comment is to long! (max 200 characters)";
         public static string ShortDescryption => "Descryption is too short! (min 5 characters)";
         public static string LongDescryption => "Descryption is too long! (max 2500 characters)";
@@ -50,5 +50,6 @@ namespace MysteryShop.Domain.Exceptions
         public static string EmptyTitle => "Title is empty!";
         public static string ProductNotFound => "Product not found!";
         public static string NotUniqueLogin => "Login is not unique!";
+        public static string WrongPrice => "Price cannot be negative!";
     }
 }

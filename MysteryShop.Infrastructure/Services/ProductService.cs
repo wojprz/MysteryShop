@@ -26,7 +26,7 @@ namespace MysteryShop.Infrastructure.Services
             _mapper = mapper;
         }
 
-        public async Task CreateAsync(string title, string description, Guid userID)
+        public async Task CreateAsync(string title, string description, Guid userID, double price)
         {
             if (title == null)
             {
@@ -46,9 +46,16 @@ namespace MysteryShop.Infrastructure.Services
             }
 
 
-            var newProduct = new Product(user, title, description, rating);
+            var newProduct = new Product(user, title, description, rating, price);
 
             await _productRepository.AddAsync(newProduct);
+        }
+        public async Task<Product> Get(Guid id)
+        {
+            var product = await _productRepository.GetAsync(id);
+            if (product == null)
+                throw new NewException(NewCodes.ProductNotFound);
+            return product;
         }
 
         public async Task<ProductDTO> GetAsync(Guid id)
@@ -67,20 +74,20 @@ namespace MysteryShop.Infrastructure.Services
             return _mapper.Map<IEnumerable<Product>, IEnumerable<ProductDTO>>(product);
         }
 
-        public async Task<IEnumerable<ProductDTO>> GetAllWithNameAsync(string title)
+        public async Task<IEnumerable<ProductDTO>> GetAllWithNameAsync(string title, int page, int count = 10)
         {
-            var product = await _productRepository.GetAllWithNameAsync(title);
+            var product = await _productRepository.GetAllWithNameAsync(title, page, count);
             if (product == null)
                 throw new NewException(NewCodes.ProductNotFound);
             return _mapper.Map<IEnumerable<Product>, IEnumerable<ProductDTO>>(product);
         }
 
-        public async Task<IEnumerable<ProductDTO>> GetAllUserProductsAsync(Guid userID)
+        public async Task<IEnumerable<ProductDTO>> GetAllUserProductsAsync(Guid userID, int page, int count = 10)
         {
             var user = await _userRepository.GetAsync(userID);
             if (user == null)
                 throw new NewException(NewCodes.UserNotFound);
-            var product = await _productRepository.GetAllUserProductsAsync(user);
+            var product = await _productRepository.GetAllUserProductsAsync(user, page, count);
             if (product == null)
                 throw new NewException(NewCodes.ProductNotFound);
             return _mapper.Map<IEnumerable<Product>, IEnumerable<ProductDTO>>(product);

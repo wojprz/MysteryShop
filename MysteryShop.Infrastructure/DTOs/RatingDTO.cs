@@ -3,6 +3,7 @@
     public class RatingDTO
     {
         public int NumberOfVotes { get; set; }
-        public int AverageOfVotes { get; set; }
+        public double AvarageOfVotes { get; set; }
+        public int SumOfVotes { get; set; }
     }
 }

@@ -11,8 +11,8 @@ namespace MysteryShop.Domain.Repositories
         Task<Product> GetAsync(Guid id);
         Task<IEnumerable<Product>> GetAllAsync();
         Task<IEnumerable<Product>> GetAllAsync(int page, int count);
-        Task<IEnumerable<Product>> GetAllWithNameAsync(string title);
-        Task<IEnumerable<Product>> GetAllUserProductsAsync(User user);
+        Task<IEnumerable<Product>> GetAllWithNameAsync(string title, int page, int count);
+        Task<IEnumerable<Product>> GetAllUserProductsAsync(User user, int page, int count);
         Task RemoveAsync(Guid id);
         Task AddAsync(Product product);
         Task UpdateAsync(Product product);

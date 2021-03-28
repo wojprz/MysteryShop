@@ -8,5 +8,6 @@ namespace MysteryShop.Infrastructure.DTOs
     {
         public string Content { get; set; }
         public DateTime DateOfAddition { get; set; }
+        public UserDTO User { get; set; }
     }
 }

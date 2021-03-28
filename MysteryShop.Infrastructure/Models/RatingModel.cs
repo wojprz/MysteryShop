@@ -6,11 +6,10 @@ using System.Threading.Tasks;
 
 namespace MysteryShop.Infrastructure.Models
 {
-    public class ProductModel
+    public class RatingModel
     {
-        public string Title { get; set; }
-        public string Descryption { get; set; }
+        public int Rate { get; set; }
+        public Guid ProductID { get; set; }
         public Guid UserID { get; set; }
-        public double Price { get; set; }
     }
 }

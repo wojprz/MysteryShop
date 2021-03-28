@@ -27,9 +27,10 @@ namespace MysteryShop.Controllers
         [HttpPost("CreateProduct")]
         public async Task CreateProduct([FromBody] ProductModel product)
         {
-           await _productService.CreateAsync(product.Title, product.Description, product.UserID);
+           await _productService.CreateAsync(product.Title, product.Descryption, product.UserID, product.Price);
         }
 
+        [AllowAnonymous]
         [HttpGet("GetById")]
         public async Task<ProductDTO> GetById(Guid id)
         {
@@ -45,18 +46,19 @@ namespace MysteryShop.Controllers
 
         [AllowAnonymous]
         [HttpGet("GetSearch")]
-        public async Task<IEnumerable<ProductDTO>> GetSearch(string title)
+        public async Task<IEnumerable<ProductDTO>> GetSearch(string title, int page, int count)
         {
-            return await _productService.GetAllWithNameAsync(title);
+            return await _productService.GetAllWithNameAsync(title, page, count);
         }
 
         [AllowAnonymous]
         [HttpGet("GetAllUserProducts")]
-        public async Task<IEnumerable<ProductDTO>> GetAllUserProducts(Guid userID)
+        public async Task<IEnumerable<ProductDTO>> GetAllUserProducts(Guid userID, int page, int count)
         {
-            return await _productService.GetAllUserProductsAsync(userID);
+            return await _productService.GetAllUserProductsAsync(userID, page, count);
         }
         
+        [AllowAnonymous]
         [HttpDelete("Remove")]
         public async Task<IActionResult> RemoveProduct(Guid id)
         {

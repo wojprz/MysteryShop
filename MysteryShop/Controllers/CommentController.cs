@@ -22,18 +22,21 @@ namespace MysteryShop.Controllers
             _commentService = commentService;
         }
         
+        [AllowAnonymous]
         [HttpGet("GetAllUserComments")]
         public async Task<IEnumerable<CommentDTO>> GetAllUserComments(Guid userID, int page, int count)
         {
             return await _commentService.GetAllUserComments(userID, page, count);
         }
 
+        [AllowAnonymous]
         [HttpGet("GetAllProductComments")]
         public async Task<IEnumerable<CommentDTO>> GetAllProductComments(Guid productID, int page, int count)
         {
             return await _commentService.GetAllProdctComments(productID, page, count);
         }
 
+        [AllowAnonymous]
         [HttpDelete("Remove")]
         public async Task<IActionResult> Remove(Guid commentID)
         {
@@ -41,6 +44,7 @@ namespace MysteryShop.Controllers
             return Ok();
         }
 
+        [AllowAnonymous]
         [HttpPost("AddComment")]
         public async Task<IActionResult> AddComment([FromBody] CommentModel comment)
         {

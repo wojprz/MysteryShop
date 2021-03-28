@@ -10,7 +10,7 @@ namespace MysteryShop.Infrastructure.Services
     {
         Task ChangeEmail(string login, string email);
         Task ChangePassword(string login, string newPassword, string oldPassword);
-        Task<User> GetUser(Guid id);
+        Task<User> GetUserAsync(Guid id);
         Task RemoveUser(Guid id);
     }
 }

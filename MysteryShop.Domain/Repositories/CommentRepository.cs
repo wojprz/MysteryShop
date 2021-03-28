@@ -26,7 +26,7 @@ namespace MysteryShop.Domain.Repositories
 
         public async Task<Comment> GetAsync(Guid id) => await _entities.Comments.SingleOrDefaultAsync(x => x.Id == id);
 
-        public async Task<IEnumerable<Comment>> GetAllProductComments(Guid productId, int page, int count) => await _entities.Comments.Where(x => x.ProductId == productId).Skip((page - 1) * count).Take(count).ToListAsync();
+        public async Task<IEnumerable<Comment>> GetAllProductComments(Guid productId, int page, int count) => await _entities.Comments.Include(x => x.User).Where(x => x.ProductId == productId).Skip((page - 1) * count).Take(count).ToListAsync();
 
         public async Task<IEnumerable<Comment>> GetAllUserComments(Guid userId, int page, int count) => await _entities.Comments.Where(x => x.User.Id == userId).Skip((page - 1) * count).Take(count).ToListAsync();
 

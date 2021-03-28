@@ -11,7 +11,7 @@ namespace MysteryShop.Domain.Entities
         public string Title { get; protected set; }
         public string Description { get; protected set; }
         public int Status { get; protected set; }
-        public float Price { get; protected set; }
+        public double Price { get; protected set; }
         public DateTime DateOfAddition { get; protected set; }
         public User User { get; protected set; }
         public virtual Rating Rating { get; protected set; }
@@ -19,7 +19,7 @@ namespace MysteryShop.Domain.Entities
 
         protected Product() { }
 
-        public Product(User user, string title, string description, Rating rating, int status = 1)
+        public Product(User user, string title, string description, Rating rating, double price, int status = 1)
         {
             Id = Guid.NewGuid();
             User = user;
@@ -29,6 +29,7 @@ namespace MysteryShop.Domain.Entities
             SetTitle(title);
             SetDescription(description);
             SetStatus(status);
+            SetPrice(price);
         }
 
         public void AddComment(Comment comment)
@@ -56,6 +57,15 @@ namespace MysteryShop.Domain.Entities
                 Status = status;
             else
                 throw new NewException(NewCodes.WrongStatus);
+        }
+
+        public void SetPrice(double price)
+        {
+            if (price < 0)
+                throw new NewException(NewCodes.WrongPrice);
+            else
+                Price = price;
+                
         }
     }
 }

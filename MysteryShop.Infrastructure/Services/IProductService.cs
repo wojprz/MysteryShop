@@ -9,11 +9,12 @@ namespace MysteryShop.Infrastructure.Services
 {
     public interface IProductService
     {
-        Task CreateAsync(string title, string description, Guid userID);
+        Task CreateAsync(string title, string description, Guid userID, double price);
         Task<ProductDTO> GetAsync(Guid id);
         Task<IEnumerable<ProductDTO>> GetAllAsync(int page, int count = 10);
-        Task<IEnumerable<ProductDTO>> GetAllWithNameAsync(string title);
-        Task<IEnumerable<ProductDTO>> GetAllUserProductsAsync(Guid userID);
+        Task<IEnumerable<ProductDTO>> GetAllWithNameAsync(string title, int page, int count = 10);
+        Task<IEnumerable<ProductDTO>> GetAllUserProductsAsync(Guid userID, int page, int count = 10);
         Task RemoveAsync(Guid id);
+        Task<Product> Get(Guid id);
     }
 }

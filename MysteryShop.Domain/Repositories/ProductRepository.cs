@@ -24,15 +24,15 @@ namespace MysteryShop.Domain.Repositories
             await _entities.SaveChangesAsync();
         }
 
-        public async Task<Product> GetAsync(Guid id) => await _entities.Products.SingleOrDefaultAsync(x => x.Id == id);
+        public async Task<Product> GetAsync(Guid id) => await _entities.Products.Include(x => x.User).Include(x => x.Rating).SingleOrDefaultAsync(x => x.Id == id);
 
         public async Task<IEnumerable<Product>> GetAllAsync() => await _entities.Products.ToListAsync();
 
-        public async Task<IEnumerable<Product>> GetAllAsync(int page, int count) => await _entities.Products.Include(x => x.User).Skip((page - 1) * count).Take(count).OrderBy(x => x.DateOfAddition).ToListAsync();
+        public async Task<IEnumerable<Product>> GetAllAsync(int page, int count) => await _entities.Products.Include(x => x.Rating).Include(x => x.User).Skip((page - 1) * count).Take(count).OrderBy(x => x.DateOfAddition).ToListAsync();
 
-        public async Task<IEnumerable<Product>> GetAllWithNameAsync(string title) => await _entities.Products.Where(x => x.Title.Contains(title)).ToListAsync();
+        public async Task<IEnumerable<Product>> GetAllWithNameAsync(string title, int page, int count) => await _entities.Products.Include(x => x.User).Include(x => x.Rating).Where(x => x.Title.Contains(title)).Skip((page - 1) * count).Take(count).OrderBy(x => x.DateOfAddition).ToListAsync();
 
-        public async Task<IEnumerable<Product>> GetAllUserProductsAsync(User user) => await _entities.Products.Where(x => x.User == user).ToListAsync();
+        public async Task<IEnumerable<Product>> GetAllUserProductsAsync(User user, int page, int count) => await _entities.Products.Include(x => x.User).Include(x => x.Rating).Where(x => x.User == user).ToListAsync();
 
         public async Task RemoveAsync(Guid id)
         {

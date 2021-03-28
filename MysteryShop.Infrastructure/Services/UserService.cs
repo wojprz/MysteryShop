@@ -19,7 +19,7 @@ namespace MysteryShop.Infrastructure.Services
             _encrypter = encrypter;
         }
 
-        public async Task<User> GetUser(Guid id)
+        public async Task<User> GetUserAsync(Guid id)
         {
             var user = await _userRepository.GetAsync(id);
             if (user == null)

@@ -29,7 +29,7 @@ namespace MysteryShop.Domain.Entities
 
         public void SetContent(string content)
         {
-            if (content.Length < 20) throw new NewException(NewCodes.ShortComment);
+            if (content.Length < 2) throw new NewException(NewCodes.ShortComment);
             if (content.Length > 200) throw new NewException(NewCodes.LongComment);
             Content = content;
         }

@@ -19,12 +19,18 @@ namespace MysteryShop.Domain.Entities
         public Rating()
         {
             Id = Guid.NewGuid();
+            NumberOfVotes = 0;
+            SumOfVotes = 0;
+            AvarageOfVotes = 0;
         }
 
         public Rating(Guid productId)
         {
             Id = Guid.NewGuid();
             ProductId = productId;
+            NumberOfVotes = 0;
+            SumOfVotes = 0;
+            AvarageOfVotes = 0;
         }
 
         public void AddVote(User user, int ocena)
